@@ -36,12 +36,14 @@ class Place(BaseModel):
             for review in models.storage.all(Review):
                 if review.place_id == self.id:
                     return review
+
         @property
         def amenities(self):
             amenit = []
             for amenit in models.storage.all(Amenity):
                 if amenit.place_id == self.id:
                     return amenit
+
         @amenities.setter
         def amenities(self, obj=None):
             if obj:
@@ -51,7 +53,9 @@ class Place(BaseModel):
                 pass
 
     place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id', String(60), ForeignKey('places.id'),
+                          Column('place_id',
+                                 String(60), ForeignKey('places.id'),
                                  primary_key=True, nullable=False),
-                          Column('amenity_id', String(60), ForeignKey('amenities.id'),
-                                 primary_key=True, nullable=False) )
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True, nullable=False))
