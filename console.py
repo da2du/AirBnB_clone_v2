@@ -123,10 +123,10 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         dic = {}
-        
+
         for param in ls[1:]:
             key, val = arg.split("=")
-            
+
             if self.is_float(val):
                 dic[key] = float(val)
             if self.is_int(val):
@@ -331,6 +331,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
