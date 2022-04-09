@@ -23,7 +23,7 @@ if getenv("HBNB_TYPE_STORAGE") == "db":
 class Place(BaseModel, Base):
     """This is the class for place"""
     __tablename__ = "places"
-    city_id = Column(String(61),
+    city_id = Column(String(60),
                      ForeignKey("cities.id", ondelete="CASCADE"),
                      nullable=False)
     user_id = Column(String(60),
