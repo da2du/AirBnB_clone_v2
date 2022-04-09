@@ -3,25 +3,27 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, String, ForeignKey, MetaData
-import models
-import sqlalchemy
 from os import getenv
-
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
-    if models.storage_t == "db":
-        __tablename__ = 'users'
+    __tablename__ = "users"
+    if getenv("HBNB_TYPE_STORAGE") != "db":
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=True, default='NULL')
-        last_name = Column(String(128), nullable=True, default='NULL')
-        places = relationship("Place", backref="user",
-                              cascade="all, delete, delete-orphan")
-        reviews = relationship("Review", backref="user",
-                               cascade="all, delete, delete-orphan")
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
+        places = relationship(
+            "Place",
+            cascade="all,delete, delete-orphan",
+            backref="user",)
+        reviews = relationship(
+            "Review",
+            cascade="all,delete, delete-orphan",
+            backref="user")
     else:
         email = ""
         password = ""
         first_name = ""
         last_name = ""
+

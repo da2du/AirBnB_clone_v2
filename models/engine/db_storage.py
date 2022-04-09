@@ -12,6 +12,13 @@ from models.review import Review
 from models.place import Place
 
 
+if getenv('HBNB_TYPE_STORAGE') == 'db':
+    from models.place import place_amenity
+
+classes = {"User": User, "State": State, "City": City,
+           "Amenity": Amenity, "Place": Place, "Review": Review}
+
+
 class DBStorage:
     """New engine"""
     __engine = None
@@ -31,23 +38,29 @@ class DBStorage:
     def all(self, cls=None):
         """return a dictionary"""
         sd = {}
-        All_cls = ['State', 'City', 'User', 'Place', 'Review', 'Amenity']
         if cls:
             obj = self.__session.query(cls).all()
             for o in obj:
-                k = "{}.{}".format(type(o).__name__, o.id)
+                k = o.__class__.__name__ + '.' + o.id
                 sd[k] = o
         else:
-            for cl in All_cls:
-                obj = self.__session.query(eval(cl)).all()
+            for cl in classes.values():
+                obj = self.__session.query(cl).all()
                 for o in obj:
-                    k = "{}.{}".format(type(o).__name__, o.id)
+                    k = o.__class__.__name__ + '.' + o.id
                     sd[k] = o
         return sd
 
     def new(self, obj):
         """add the object to the current database session"""
-        self.__session.add(obj)
+        if obj is not None:
+            try:
+                self.__session.add(obj)
+                self.__session.flush()
+                self.__session.refresh(obj)
+            except Exception as ex:
+                self.__session.rollback()
+                raise ex
 
     def save(self):
         """commit all changes of the current database session"""
@@ -56,7 +69,8 @@ class DBStorage:
     def delete(self, obj=None):
         """ delete from the current database session"""
         if obj:
-            self.__session.delete(obj)
+            self.__session.query(type(obj)).filter(
+                type(obj).id == obj.id).delete()
 
     def reload(self):
         """create all tables in the database"""
