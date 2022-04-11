@@ -30,7 +30,7 @@ def c_var(text):
 @app.route('/python/<text>', strict_slashes=False)
 def py_var(text):
     """display message to user"""
-    return 'Python  %s' % escape(text.replace('_', ' '))
+    return 'Python %s' % escape(text.replace('_', ' '))
 
 
 if __name__ == "__main__":
