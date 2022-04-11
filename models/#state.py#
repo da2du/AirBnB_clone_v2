@@ -18,11 +18,10 @@ class State(BaseModel, Base):
          single_parent=True)
 
     if getenv("HBNB_TYPE_STORAGE") != "db":
-        name = ''
         @property
         def cities(self):
             """returns list of City instances with state_id"""
             from models import storage
-            from models.city import City
+            from mo
             return [v for k, v in storage.all(City).items()
                     if v.state_id == self.id]

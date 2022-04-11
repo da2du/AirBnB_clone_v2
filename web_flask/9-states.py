@@ -8,11 +8,11 @@ from models.state import State
 
 app = Flask(__name__)
 
-@app.route('/states_list',strict_slashes=False)
-def state_ls():
-    """display a HTML page"""
+@app.route('/states')
+@app.route('/states/<id>')
+def state(id=None,strict_slashes=False):
     states = storage.all(State).values()
-    return render_template('7-states_list.html', states=states)
+    return render_template('9-states.html', id=id, states=states)
 
 @app.teardown_appcontext
 def tear(exception):
