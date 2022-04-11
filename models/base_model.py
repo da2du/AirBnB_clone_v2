@@ -52,7 +52,7 @@ class BaseModel:
         my_dict = dict(self.__dict__)
         my_dict["__class__"] = str(type(self).__name__)
         for key in my_dict:
-            if type(my_dict[key]) is datetime:
+            if isinstance(my_dict[key], datetime):
                 my_dict[key] = my_dict[key].isoformat()
         if '_sa_instance_state' in my_dict.keys():
             del(my_dict['_sa_instance_state'])

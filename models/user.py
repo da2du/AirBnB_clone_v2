@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Column, Integer, String, ForeignKey, MetaData
 from os import getenv
 
+
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = "users"
