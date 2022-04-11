@@ -22,7 +22,7 @@ def hbnb():
 @app.route('/c/<text>', strict_slashes=False)
 def c_var(text):
     """display message to user"""
-    return 'C %s' % escape(text.replace('_', ' '))
+    return 'C %s' % escape(text.replace('_', ''))
 
 
 @app.route('/python/', defaults={"text": "is cool"},
